@@ -36,7 +36,7 @@ media = recebe_valor('Digite a média do aluno entre 0.0 a 10.0: ', float, 0.0, 
 horas_extras = recebe_valor('Digite quantas horas extras o aluno tem entre 0 a 6: ', int, 0, 6)
 freq = recebe_valor('Digite a frequência do aluno entre 0.0 a 1.0: ', float, 0.0, 1.0)
 tarefas_feitas = recebe_valor('Digite quantas tarefas o aluno completou entre 0 a 15: ', int, 0, 15)
-atividades_extras = recebe_valor('Digite quantas atividades extras o aluno realizou entre 0 a 5: ', int, 0, 5)
+atividades_extras = recebe_valor('Digite quantas atividades extras o aluno realizou entre 0 a 6: ', int, 0, 6)
 
 dados_aluno_novo = np.array([[media, horas_extras, freq, tarefas_feitas, atividades_extras]])
 nota_prevista = modelo.predict(dados_aluno_novo)
