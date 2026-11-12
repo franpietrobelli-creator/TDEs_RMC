@@ -1,5 +1,21 @@
-from sklearn.linear_model import LinearRegression
 import numpy as np
+
+try:
+    from sklearn.linear_model import LinearRegression
+except ImportError:
+    # Fallback caso o scikit-learn não carregue (ex.: bloqueado pelo Windows):
+    # regressão linear por mínimos quadrados, equivalente à do sklearn
+    class LinearRegression:
+        def fit(self, X, y):
+            X_com_intercepto = np.column_stack([np.ones(len(X)), X])
+            coeficientes = np.linalg.lstsq(X_com_intercepto, y, rcond=None)[0]
+            self.intercept_ = coeficientes[0]
+            self.coef_ = coeficientes[1:]
+            return self
+
+        def predict(self, X):
+            return np.asarray(X) @ self.coef_ + self.intercept_
+
 modelo = LinearRegression()
 
 X = np.array([[7.0, 2, 0.9, 8, 2],
@@ -43,7 +59,7 @@ nota_prevista = modelo.predict(dados_aluno_novo)
 
 print(f'\nA nota do aluno novo prevista é: {nota_prevista[0]:.2f}')
 
-if freq >= 0.5 and nota_prevista >= 7.0:
+if freq >= 0.5 and nota_prevista[0] >= 7.0:
     print('O aluno foi aprovado')
 else:
-    print(f'O aluno provavelmente reprovará com a nota {nota_prevista[0]:.2f} e frequencia {freq * 100}%')
+    print(f'O aluno provavelmente reprovará com a nota {nota_prevista[0]:.2f} e frequencia {freq * 100:.0f}%')    
